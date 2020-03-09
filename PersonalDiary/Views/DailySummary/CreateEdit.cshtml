@@ -1,0 +1,31 @@
+﻿@model DailySummaryBM
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">
+            @ViewBag.Mode Daily Summary
+        </h1>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <textarea asp-for="Desription" id="editor" rows="10"></textarea>
+            </div>
+            <input type="submit" value="Save" class="btn btn-success" />
+            <a asp-action="Index" class="btn btn-primary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync ("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        ClassicEditor.create(document.querySelector('#editor'));
+    </script>
+}

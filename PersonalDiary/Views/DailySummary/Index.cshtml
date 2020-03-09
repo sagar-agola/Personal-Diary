@@ -1,0 +1,53 @@
+﻿@model List<DailySummaryBM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="CreateEdit">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr width="100%">
+            <th> Id </th>
+            <th> Date Created </th>
+            <th> Date Modified </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Id
+                    </td>
+                    <td>
+                        @item.DateCreated
+                    </td>
+                    <td>
+                        @item.DateModified
+                    </td>
+                    <td>
+                        <a asp-action="CreateEdit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Remove" asp-route-id="@item.Id">Remove</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">
+                    None at the moment
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

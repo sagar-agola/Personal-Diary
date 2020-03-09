@@ -1,13 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PersonalDiary.DataAccess.Contracts;
+using PersonalDiary.DataAccess.Reporitories;
+using PersonalDiary.Database.Context;
+using AutoMapper;
 
 namespace PersonalDiary
 {
@@ -22,6 +22,17 @@ namespace PersonalDiary
 
         public void ConfigureServices (IServiceCollection services)
         {
+            services.AddDbContext<PersonalDiaryDbContext> (options =>
+            {
+                options.UseSqlServer (Configuration.GetConnectionString ("DbConnection"));
+            });
+
+            services.AddScoped<IDailySummaryReporitory, DailySummaryRepository> ();
+
+#pragma warning disable CS0618 // Type or member is obsolete
+            services.AddAutoMapper ();
+#pragma warning restore CS0618 // Type or member is obsolete
+
             services.AddControllersWithViews ();
         }
 
@@ -38,11 +49,11 @@ namespace PersonalDiary
             app.UseRouting ();
 
             app.UseEndpoints (endpoints =>
-             {
-                 endpoints.MapControllerRoute (
-                     name: "default",
-                     pattern: "{controller=Home}/{action=Index}/{id?}");
-             });
+            {
+                endpoints.MapControllerRoute (
+                    name: "default",
+                    pattern: "{controller=DailySummary}/{action=Index}/{id?}");
+            });
         }
     }
 }

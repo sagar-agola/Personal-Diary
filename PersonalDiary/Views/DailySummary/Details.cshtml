@@ -1,0 +1,37 @@
+﻿@model DailySummaryBM
+
+@{
+    ViewData["Title"] = "Daily Summary Details";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h1 class="card-title">
+            Daily Summary Details
+        </h1>
+    </div>
+    <div class="card-body">
+        <div class="text-right">
+            <b>Date : </b> @(Model.DateCreated.ToLongDateString ())
+        </div>
+        <hr />
+        <div class="content">
+            @Html.Raw(Model.Desription)
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-md-6">
+                <b>Id : </b> @Model.Id<br />
+                <b>Last Modified : </b> @(Model.DateModified.HasValue ?
+                    $"{ Convert.ToDateTime (Model.DateModified).ToLongDateString () } " +
+                    $"{ Convert.ToDateTime (Model.DateModified).ToShortTimeString () }" : "Not modified")<br />
+            </div>
+            <div class="col-md-6 text-right my-auto">
+                <a asp-action="Index" class="btn btn-success">Back</a>
+                <a asp-action="CreateEdit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                <a asp-action="Remove" asp-route-id="@Model.Id" class="btn btn-danger">Remove</a>
+            </div>
+        </div>
+    </div>
+</div>
